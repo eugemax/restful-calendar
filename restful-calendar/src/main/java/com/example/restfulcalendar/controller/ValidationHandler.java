@@ -1,5 +1,6 @@
 package com.example.restfulcalendar.controller;
 
+import org.jetbrains.annotations.NotNull;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,8 +17,8 @@ import java.util.Map;
 public class ValidationHandler extends ResponseEntityExceptionHandler {
 
     @Override
-    protected ResponseEntity<Object>handleMethodArgumentNotValid(MethodArgumentNotValidException exception,
-                                                                 HttpHeaders headers, HttpStatus status, WebRequest request){
+    protected @NotNull ResponseEntity<Object>handleMethodArgumentNotValid(MethodArgumentNotValidException exception,
+                                                                          @NotNull HttpHeaders headers, @NotNull HttpStatus status, @NotNull WebRequest request){
 
         Map<String, String> errors= new HashMap<>();
 
@@ -30,6 +31,6 @@ public class ValidationHandler extends ResponseEntityExceptionHandler {
             errors.put(fieldName, message);
         });
 
-        return  new ResponseEntity<Object>(errors, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
 }

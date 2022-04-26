@@ -1,13 +1,10 @@
 package com.example.restfulcalendar.service;
 
 import com.example.restfulcalendar.exceptions.EventNotFoundException;
-import com.example.restfulcalendar.exceptions.InvalidDateRangeException;
 import com.example.restfulcalendar.model.Event;
 import com.example.restfulcalendar.repositories.EventRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.ZonedDateTime;
 import java.util.List;
 
 
@@ -16,16 +13,16 @@ public class EventService {
 
     private  final EventRepository eventRepository;
 
+
     public EventService(EventRepository eventRepository){
         this.eventRepository=eventRepository;
     }
 
+
     public Event createEvent(Event event) {
 
-        if(!event.getStart().isBefore( event.getEnd()))
-            throw new InvalidDateRangeException(event.getId());
+                  return eventRepository.save(event);
 
-        return eventRepository.save(event);
     }
 
 
@@ -65,8 +62,8 @@ public class EventService {
                 .map(e -> {
                     e.setTitle(event.getTitle());
                     e.setDescription(event.getDescription());
-                    e.setStart(event.getStart());
-                    e.setEnd(event.getEnd());
+                    e.setStart(event.getStartDate());
+                    e.setMinutesDuration(event.getMinutesDuration());
                     e.setName(event.getName());
                     return eventRepository.save(e);
                 })
@@ -83,19 +80,3 @@ public class EventService {
 
 }
 
-    /*    class EventValidatorByDate{
-             boolean isValidDate (ZonedDateTime date) {
-                 try {
-                     OffsetDateTime.parse(date.toString());
-                     return true;
-                 }catch ( DateTimeParseException e){
-                     return false;
-                 }
-             }
-         }
-         EventValidatorByDate validator= new EventValidatorByDate();
-    if (validator.isValidDate(event.getStart())&&validator.isValidDate(event.getEnd()))*/
-
-  /*   else {
-         throw new RuntimeException(" The date is not valid");
-    }*/

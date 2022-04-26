@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import java.time.ZonedDateTime;
 import java.util.Objects;
@@ -14,12 +15,15 @@ import java.util.Objects;
 @Entity
 public class Event{
 
-    public Event(String title, String description, ZonedDateTime start, ZonedDateTime end, String name) {
+    public static final long MIN_DURATION= 5L;
+
+    public Event(String title, String description, ZonedDateTime startDate, Long minutesDuration, String name) {
 
         this.title = title;
         this.description = description;
-        this.startDate = start;
-        this.endDate = end;
+        this.startDate = startDate;
+        this.minutesDuration=minutesDuration;
+        this.endDate=startDate.plusMinutes(minutesDuration);
         this.name = name;
     }
 
@@ -32,8 +36,23 @@ public class Event{
     private String title;
 
     private String description;
+
+
     private ZonedDateTime startDate;
     private ZonedDateTime endDate;
+
+    @Min(MIN_DURATION)
+    private Long minutesDuration;
+    public Long getMinutesDuration() {
+        return minutesDuration;
+    }
+
+    public void setMinutesDuration(Long minutesDuration) {
+
+        this.minutesDuration=minutesDuration;
+        this.endDate=startDate.plusMinutes(minutesDuration);
+    }
+
 
     private String name;
 
@@ -62,7 +81,7 @@ public class Event{
         this.description = description;
     }
 
-    public ZonedDateTime getStart() {
+    public ZonedDateTime getStartDate() {
         return startDate;
     }
 
@@ -74,9 +93,7 @@ public class Event{
         return endDate;
     }
 
-    public void setEnd(ZonedDateTime end) {
-        this.endDate = end;
-    }
+
 
     public String getName() {
         return name;

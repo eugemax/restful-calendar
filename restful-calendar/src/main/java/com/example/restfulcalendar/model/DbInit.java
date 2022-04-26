@@ -26,82 +26,55 @@ public class DbInit {
         List<Event> list=new ArrayList<>();
         list.add( new Event("title1","description1",
                 ZonedDateTime.of(2022, 1, 20, 6, 15, 30, 200, zone),
-                ZonedDateTime.of(2022, 4, 29, 6, 15, 30, 200, zone),
+                50000L,
                 "name1"));
 
         list.add(new Event("title","description",
                 ZonedDateTime.of(2022, 3, 7, 6, 15, 30, 200, zone),
-                ZonedDateTime.of(2022, 3, 22, 6, 15, 30, 200, zone),
+                100000L,
                 "name2"));
         list.add(new Event("title","description",
                 ZonedDateTime.of(2022, 1, 20, 6, 15, 30, 200, zone),
-                ZonedDateTime.of(2022, 1, 29, 6, 15, 30, 200, zone),
+                50000L,
+
                 "name1"));
 
         list.add(new Event("title","description",
                 ZonedDateTime.of(2021, 12, 31, 6, 15, 30, 200, zone),
-                ZonedDateTime.of(2022, 3, 10, 6, 15, 30, 200, zone),
+                30000L,
+
                 "name2"));
         list.add(new Event("title","description",
                 ZonedDateTime.of(2022, 2, 17, 6, 15, 30, 200, zone),
-                ZonedDateTime.of(2022, 3, 23, 6, 15, 30, 200, zone),
+                50000L,
                 "name1"));
 
-        list.add(new Event("title2","description2",
+        list.add(new Event("title","description",
                 ZonedDateTime.of(2022, 3, 7, 6, 15, 30, 200, zone),
-                ZonedDateTime.of(2022, 3, 29, 6, 15, 30, 200, zone),
+                10000L,
                 "name2"));
-        list.add( new Event("title1","description1",
+        list.add( new Event("title","description",
                 ZonedDateTime.of(2022, 1, 1, 6, 15, 30, 200, zone),
-                ZonedDateTime.of(2022, 1, 29, 6, 15, 30, 200, zone),
-                "name1"));
+                200000L,
+                "name"));
 
-        list.add(new Event("title2","description2",
-                ZonedDateTime.of(2022, 3, 1, 6, 15, 30, 200, zone),
-                ZonedDateTime.of(2022, 3, 30, 6, 15, 30, 200, zone),
-                "name2"));
+        list.add(new Event("title","description",
+                ZonedDateTime.of(2023, 3, 1, 6, 15, 30, 200, zone),
+                25000L,
+                "name"));
 
-        list.add( new Event("title1","description1",
-                ZonedDateTime.of(2022, 4, 1, 6, 15, 30, 200, zone),
-                ZonedDateTime.of(2022, 4, 29, 6, 15, 30, 200, zone),
-                "name1"));
+        list.add( new Event("title","description",
+                ZonedDateTime.of(2024, 4, 1, 6, 15, 30, 200, zone),
+                50000L,
+                "name"));
 
-        list.add(new Event("title2","description2",
-                ZonedDateTime.of(2022, 3, 7, 6, 15, 30, 200, zone),
-                ZonedDateTime.of(2022, 5, 10, 6, 15, 30, 200, zone),
-                "name2"));
-        list.add( new Event("title1","description1",
-                ZonedDateTime.of(2022, 4, 20, 6, 15, 30, 200, zone),
-                ZonedDateTime.of(2022, 5, 29, 6, 15, 30, 200, zone),
-                "name1"));
+        list.add(new Event("title","description2",
+                ZonedDateTime.of(2020, 3, 7, 6, 15, 30, 200, zone),
+                50000L,
+                "name"));
 
-        list.add(new Event("title2","description2",
-                ZonedDateTime.of(2022, 3, 1, 6, 15, 30, 200, zone),
-                ZonedDateTime.of(2022, 6, 30, 6, 15, 30, 200, zone),
-                "name2"));
-        list.add(new Event("title1","description1",
-                ZonedDateTime.of(2022, 1, 1, 6, 15, 30, 200, zone),
-                ZonedDateTime.of(2022, 10, 29, 6, 15, 30, 200, zone),
-                "name1"));
 
-        list.add(new Event("title2","description2",
-                ZonedDateTime.of(2022, 3, 7, 6, 15, 30, 200, zone),
-                ZonedDateTime.of(2022, 3, 10, 6, 15, 30, 200, zone),
-                "name2"));
-        list.add(new Event("title1","description1",
-                ZonedDateTime.of(2022, 1, 20, 6, 15, 30, 200, zone),
-                ZonedDateTime.of(2022, 1, 29, 6, 15, 30, 200, zone),
-                "name1"));
-
-        list.add(new Event("title2","description2",
-                ZonedDateTime.of(2022, 3, 7, 6, 15, 30, 200, zone),
-                ZonedDateTime.of(2022, 3, 10, 6, 15, 30, 200, zone),
-                "name2"));
-
-        for (Event event:list
-             ) {
-            eventRepository.save(event);
-        }
+        eventRepository.saveAll(list);
 
 
     }

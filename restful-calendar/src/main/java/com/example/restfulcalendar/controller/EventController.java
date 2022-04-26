@@ -32,8 +32,8 @@ public class EventController {
          this.assembler= assembler;
 
     }
-       // Aggregate root
-        // tag::get-aggregate-root[]
+
+
         @GetMapping("events")
         CollectionModel<EntityModel<Event>> all() {
             List<EntityModel<Event>> events= eventService.findAll().stream()
@@ -43,7 +43,7 @@ public class EventController {
             return CollectionModel.of(events, linkTo(methodOn(EventController.class).all()).withSelfRel());
         }
 
-        // end::get-aggregate-root[]
+
 
         @PostMapping("events")
         public ResponseEntity<Event> addEvent( @Valid @RequestBody Event event) {
@@ -51,7 +51,8 @@ public class EventController {
                return new ResponseEntity<>(savedEvent, HttpStatus.CREATED);
         }
 
-       // Single item
+
+
 
         @GetMapping("events/{id}")
         EntityModel<Event> one(@PathVariable Long id) {
