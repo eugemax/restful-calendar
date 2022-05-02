@@ -8,13 +8,13 @@ import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;
 
 @Component
-class EmployeeModelAssembler implements RepresentationModelAssembler<Event, EntityModel<Event>> {
+class EventModelAssembler implements RepresentationModelAssembler<Event, EntityModel<Event>> {
 
     @Override
-    public EntityModel<Event> toModel(Event employee) {
+    public EntityModel<Event> toModel(Event event) {
 
-        return EntityModel.of(employee, //
-                linkTo(methodOn(EventController.class).one(employee.getId())).withSelfRel(),
+        return EntityModel.of(event, //
+                linkTo(methodOn(EventController.class).one(event.getId())).withSelfRel(),
                 linkTo(methodOn(EventController.class).all()).withRel("events"));
     }
 }

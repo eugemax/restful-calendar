@@ -24,9 +24,9 @@ public class EventController {
 
     private final EventService eventService;
 
-    private final EmployeeModelAssembler assembler;
+    private final EventModelAssembler assembler;
 
-    EventController( EventService eventService, EmployeeModelAssembler assembler) {
+    EventController( EventService eventService, EventModelAssembler assembler) {
 
          this.eventService = eventService;
          this.assembler= assembler;
@@ -75,7 +75,8 @@ public class EventController {
 
         @GetMapping("events/filters/by_date/{year}")
         CollectionModel<EntityModel<Event>> findByYear(@PathVariable Integer year) {
-            List<EntityModel<Event>> events = eventService.findByYear(year).stream()
+            List<EntityModel<Event>> events = eventService.findByYear(year)
+                    .stream()
                     .map(assembler::toModel)
                     .collect(Collectors.toList());
 

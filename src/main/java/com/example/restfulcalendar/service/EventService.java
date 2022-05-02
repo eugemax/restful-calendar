@@ -1,10 +1,12 @@
 package com.example.restfulcalendar.service;
 
+import com.example.restfulcalendar.exceptions.AllocatedTimeException;
 import com.example.restfulcalendar.exceptions.EventNotFoundException;
 import com.example.restfulcalendar.model.Event;
 import com.example.restfulcalendar.repositories.EventRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.ZonedDateTime;
 import java.util.List;
 
 
@@ -20,9 +22,9 @@ public class EventService {
 
 
     public Event createEvent(Event event) {
-
+    if( isTimeFree( event) )
                   return eventRepository.save(event);
-
+    else throw new AllocatedTimeException(event.getId());
     }
 
 
@@ -58,23 +60,36 @@ public class EventService {
 
 
     public Event replaceEvent(Event event, Long id){
-        return  eventRepository.findById(id)
-                .map(e -> {
-                    e.setTitle(event.getTitle());
-                    e.setDescription(event.getDescription());
-                    e.setStart(event.getStartDate());
-                    e.setMinutesDuration(event.getMinutesDuration());
-                    e.setName(event.getName());
-                    return eventRepository.save(e);
-                })
-                .orElseGet(() -> {
-                    event.setId(id);
-                    return eventRepository.save(event);
-                });
+
+        if( isTimeFree( event) ) {
+            return eventRepository.findById(id)
+                    .map(e -> {
+                        e.setTitle(event.getTitle());
+                        e.setDescription(event.getDescription());
+                        e.setStart(event.getStartDate());
+                        e.setMinutesDuration(event.getMinutesDuration());
+                        e.setName(event.getName());
+                        return eventRepository.save(e);
+                    })
+                    .orElseGet(() -> {
+                        event.setId(id);
+                        return eventRepository.save(event);
+                    });
+        }else
+            throw new AllocatedTimeException(id);
     }
 
     public void deleteById(Long id){
         eventRepository.deleteById(id);
+    }
+
+    private   boolean isTimeFree(Event event){
+        ZonedDateTime start=event.getStartDate();
+        ZonedDateTime end=start.plusMinutes(event.getMinutesDuration());
+        List<Event> list= eventRepository.findByRange(start.getYear(),start.getMonthValue(),start.getDayOfMonth(),start.getHour(),start.getMinute(),
+                end.getYear(), end.getMonthValue(), end.getDayOfMonth(), end.getHour(), end.getMinute());
+
+        return list.isEmpty();
     }
 
 

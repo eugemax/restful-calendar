@@ -1,11 +1,11 @@
 package com.example.restfulcalendar.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import org.springframework.data.annotation.PersistenceConstructor;
+
+import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.ZonedDateTime;
 import java.util.Objects;
 
@@ -13,11 +13,14 @@ import java.util.Objects;
 
 
 @Entity
+
 public class Event{
 
     public static final long MIN_DURATION= 5L;
 
-    public Event(String title, String description, ZonedDateTime startDate, Long minutesDuration, String name) {
+
+    @PersistenceConstructor
+    public Event(String title, String description,  ZonedDateTime startDate, Long minutesDuration, String name) {
 
         this.title = title;
         this.description = description;
@@ -31,31 +34,35 @@ public class Event{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+
     private Long id;
+
     @NotEmpty
     private String title;
 
-    private String description;
+     private String description;
 
-
+     @NotNull
     private ZonedDateTime startDate;
+
+
     private ZonedDateTime endDate;
+
+
+    private String name;
 
     @Min(MIN_DURATION)
     private Long minutesDuration;
+
     public Long getMinutesDuration() {
         return minutesDuration;
     }
 
     public void setMinutesDuration(Long minutesDuration) {
 
-        this.minutesDuration=minutesDuration;
-        this.endDate=startDate.plusMinutes(minutesDuration);
+        this.minutesDuration = minutesDuration;
+     //   this.endDate = startDate.plusMinutes(minutesDuration);
     }
-
-
-    private String name;
-
 
     public Long getId() {
         return id;
@@ -85,14 +92,22 @@ public class Event{
         return startDate;
     }
 
-    public void setStart(ZonedDateTime start) {
-        this.startDate = start;
+    public void setStart(ZonedDateTime startDate) {
+        this.startDate = startDate;
     }
 
-    public ZonedDateTime getEnd() {
+    public ZonedDateTime getEndDate() {
         return endDate;
     }
 
+
+    public void setEndDate( ZonedDateTime startDate, Long minutesDuration){
+        this.endDate =  startDate.plusMinutes(minutesDuration);
+    }
+
+public void setEndDate(ZonedDateTime endDate) {
+    this.endDate = endDate;
+}
 
 
     public String getName() {
@@ -102,6 +117,9 @@ public class Event{
     public void setName(String name) {
         this.name = name;
     }
+
+
+
 
     @Override
     public String toString() {
@@ -133,7 +151,14 @@ public class Event{
     }
 
 
+    @PrePersist
+    public void prePersist() {
+        this.endDate=  this.startDate.plusMinutes(this.minutesDuration);
+    }
 
-
+    @PreUpdate
+    public void preUpdate() {
+        this.endDate=  this.startDate.plusMinutes(this.minutesDuration);
+    }
 }
 
